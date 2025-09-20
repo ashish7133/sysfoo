@@ -22,7 +22,8 @@ pipeline {
         mvn versions:set -DnewVersion=%GIT_SHORT_COMMIT%
         mvn versions:commit
         '''
-        archiveArtifacts '*/target/*.jar'
+        powershell 'mvn package -DskipTests'
+        archiveArtifacts '**/target/*.jar'
       }
     }
 
