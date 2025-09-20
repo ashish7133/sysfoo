@@ -18,12 +18,10 @@ pipeline {
     stage('package') {
       steps {
         echo 'packaging the app..'
-        :: Truncate the GIT_COMMIT to the first 7 characters
-          set GIT_SHORT_COMMIT=%GIT_COMMIT:~0,7%
-
-        :: Set the version using Maven
-          mvn versions:set -DnewVersion=%GIT_SHORT_COMMIT%
-          mvn versions:commit
+        powershell '''set GIT_SHORT_COMMIT=%GIT_COMMIT:~0,7%
+        mvn versions:set -DnewVersion=%GIT_SHORT_COMMIT%
+        mvn versions:commit
+        '''
 
         archiveArtifacts '**/target/*.jar'
       }
