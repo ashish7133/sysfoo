@@ -18,10 +18,13 @@ pipeline {
     stage('package') {
       steps {
         echo 'packaging the app..'
-        powershell '''set GIT_SHORT_COMMIT=%GIT_COMMIT:~0,7%
-        mvn versions:set -DnewVersion=%GIT_SHORT_COMMIT%
-        mvn versions:commit
-        '''
+         powershell '''
+            # Truncate the GIT_COMMIT environment variable to first 7 chars
+              $GIT_SHORT_COMMIT = $env:GIT_COMMIT.Substring(0,7)
+            # Set and commit the new Maven version
+              mvn versions:set -DnewVersion="$GIT_SHORT_COMMIT"
+              mvn versions:commit
+          '''
         powershell 'mvn package -DskipTests'
         archiveArtifacts '**/target/*.jar'
       }
