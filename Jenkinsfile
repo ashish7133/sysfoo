@@ -22,8 +22,7 @@ pipeline {
         mvn versions:set -DnewVersion=%GIT_SHORT_COMMIT%
         mvn versions:commit
         '''
-
-        archiveArtifacts '**/target/*.jar'
+        archiveArtifacts '*/target/*.jar'
       }
     }
 
